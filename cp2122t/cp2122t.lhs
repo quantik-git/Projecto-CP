@@ -881,15 +881,70 @@ textos, inc.\ diagramas que expliquem como se chegou às soluções encontradas.
 Valoriza-se a escrita de \emph{pouco} código que corresponda a soluções
 simples e elegantes.
 
+%format (lcbr3 (x)(y)(z)) = "\begin{lcbr}" x "\\" y "\\" z "\end{lcbr}"
+
 \subsection*{Problema 1} \label{pg:P1}
 
-Apresentar cálculos aqui, se desejável acompanhados de diagramas, etc.
+Pretendemos demonstrar que \start{ |loop d = aux d| }. Para tal começamos por trabalhar na 
+seguinte equação.
+
+\begin{spec}
+\end{spec}
+\begin{eqnarray}
+\start
+     |lcbr3(
+          (q d) . in = f . fF (split (q d) (split (r d) (c d)))
+     )(
+          (r d) . in = g . fF (split (q d) (split (r d) (c d)))
+     )(
+          (c d) . in = h . fF (split (q d) (split (r d) (c d)))
+     )|
+%
+\equiv{ |split (q d) (split (r d) (c d)) = cataList (split f (split g h))| }
+\just\equiv{ definição de in; functor dos naturais; def-aux }
+%
+     |lcbr3(
+          (q d) . either (const (0)) (succ) = f . (id + (split (q d) (split (r d) (c d))))
+     )(
+          (r d) . either (const (0)) (succ) = g . (id + (split (q d) (split (r d) (c d))))
+     )(
+          (c d) . either (const (0)) (succ) = h . (id + (split (q d) (split (r d) (c d))))
+     )|
+%
+\equiv { |aux d = cataList (split f (split g h))| }
+\just\equiv{ fusão-+; reflexão-+; eq-+; igualdade extensional; def-comp; def-split; def-x }
+%
+     |lcbr3(
+          lcbr(
+               (q d) 0 = a
+          )(
+               (q d) (n+1) = f2 (q d n, (r d n, c d n))
+          )
+     )(
+          lcbr(
+               (r d) 0 = b
+          )(
+               (r d) (n+1) = g2 (q d n, (r d n, c d n))
+          )
+     )(
+          lcbr(
+               (c d) 0 = c
+          )(
+               (c d) (n+1) = h2 (q d n, (r d n, c d n))
+          )
+     )|
+%
+\equiv{ |aux d = cataList (split (either (const (a)) f2) (split (either (const (b)) g2) (either (const (c)) h2)))| }
+%
+\end{eqnarray}
+
+Vamos agora fazer algumas alterações à forma como expressamos as seguintes funções:
 
 \begin{spec}
 q d 0 = 0
 q d (n+1) = q d n + (if (c d n) == 0 then 1 else 0)
 \end{spec}
-\begin{eqnarray*}
+\begin{eqnarray}
 \start
      |lcbr(
           q d 0 = 0
@@ -897,41 +952,39 @@ q d (n+1) = q d n + (if (c d n) == 0 then 1 else 0)
           q d (n+1) = q d n + (if (c d n) == 0 then 1 else 0)
      )|
 %
-\just\equiv{ def-zero, def-succ, soma de um if é igual ao if da soma }
+\just\equiv{ def-succ; 1ª lei de fusão do condicional }
 %
      |lcbr(
-          (q d) . const (0) = const (0)
+          q d 0 = 0
      )(
-          (q d) . succ n = if (0 ==) . (c d) n then succ . (q d) n else (q d) n
+          q d (n+1) = if (0 ==) . (c d n) then succ . (q d n) else (q d n)
      )|
 %
 \just\equiv{ def-cond }
 %
      |lcbr(
-          (q d) . const (0) = const (0)
+          q d 0 = 0
      )(
-          (q d) . succ n = ((0 ==) . (c d) -> succ . (q d), (q d)) n
+          q d (n+1) = ((0 ==) . (c d n) -> succ . (q d n), (q d n))
      )|
 %
-\just\equiv{ igualdade extensional, eq-x, fusão-x }
+\just\equiv{ def condicional de McCarthy }
 %
-     |(q d) . either (const (0)) (succ) = [const (0), ((0 ==) . (c d) -> succ . (q d), (q d))]|
+     |lcbr(
+          q d 0 = 0
+     )(
+          q d (n+1) = [succ . (q d n), (q d n)] . ((0 ==) . (c d n)) ?
+     )|
 %
-\just\equiv{ def-in, def condicional de McCarthy }
-%
-     |(q d) . in = [const (0), [succ . (q d), (q d)] . ((0 ==) . (c d))?]|
-%
-\just\equiv{ natural-id, absorção-+ }
-%
-     |(q d) . in = [const (0), [succ . (q d), (q d)]] . (id + ((0 ==) . (c d))?)|
-\qed
-\end{eqnarray*}
+\end{eqnarray}
+
+\newpage
 
 \begin{spec}
 r d 0 = 0
 r d (n+1) = if (c d n) == 0 then 0 else 1 + r d n
 \end{spec}
-\begin{eqnarray*}
+\begin{eqnarray}
 \start
      |lcbr(
           r d 0 = 0
@@ -939,33 +992,29 @@ r d (n+1) = if (c d n) == 0 then 0 else 1 + r d n
           r d (n+1) = if (c d n) == 0 then 0 else 1 + r d n
      )|
 %
-\just\equiv{ def-zero, def-succ, def-cond }
+\just\equiv{ def-succ; def-cond }
 %
      |lcbr(
-          (r d) . const (0) = const (0)
+          r d 0 = 0
      )(
-          (r d) . succ n = ((0 ==) . (c d) -> const (0), succ . (r d)) n
+          r d (n+1) = ((0 ==) . (c d n) -> const (0), succ . (r d n)) n
      )|
 %
-\just\equiv{ igualdade extensional, eq-x, fusão-x, def-in }
+\just\equiv{ def condicional de McCarthy }
 %
-     |(r d) . in = [const (0), ((0 ==) . (c d) -> const (0), succ . (r d))]|
+     |lcbr(
+          r d 0 = 0
+     )(
+          r d (n+1) = [const (0), succ . (r d n)] . ((0 ==) . (c d n)) ?
+     )|
 %
-\just\equiv{ def condicional de McCarthy, natural-id }
-%
-     |(r d) . in = [const (0) . id, [const (0), succ . (r d)] . ((0 ==) . (c d))?]|
-%
-\just\equiv{ absorção-+ }
-%
-     |(r d) . in = [const (0), [const (0), succ . (r d)]] . (id + ((0 ==) . (c d))?)|
-\qed
-\end{eqnarray*}
+\end{eqnarray}
 
 \begin{spec}
 c d 0 = d
 c d (n+1) = if (c d n) == 0 then d else (c d n)-1
 \end{spec}
-\begin{eqnarray*}
+\begin{eqnarray}
 \start
      |lcbr(
           c d 0 = d
@@ -973,59 +1022,102 @@ c d (n+1) = if (c d n) == 0 then d else (c d n)-1
           c d (n+1) = if (c d n) == 0 then d else (c d n)-1
      )|
 %
-\just\equiv{ def-zero, def-succ, def-pred, def-cond }
+\just\equiv{ def-pred; def-cond }
 %
      |lcbr(
-          (c d) . const (0) = const (d)
+          c d 0 = d
      )(
-          (c d) . succ n = ((0 ==) . (c d) -> const (d), pred . (c d)) n
+          c d (n+1) = ((0 ==) . (c d n) -> const (d), pred . (c d n))
      )|
 %
-\just\equiv{ igualdade extensional, eq-x, fusão-x, def-in }
+\just\equiv{ def condicional de McCarthy }
 %
-     |(c d) . in = [const (d), ((0 ==) . (c d) -> const (d), pred . (c d))]|
+     |lcbr(
+          c d 0 = d
+     )(
+          c d (n+1) = [const (d), pred . (c d n)] . ((0 ==) . (c d n)) ?
+     )|
 %
-\just\equiv{ def condicional de McCarthy, natural-id }
+\end{eqnarray}
+
+
+Pelos pontos 4, 8, 11, e 14 obtemos:
+
+\begin{spec}
+a = b = 0
+c = d
+f2 = [succ . p1, p1] . ((0 ==) . p2 . p2) ?
+g2 = [const (0), succ . p1 . p2] . ((0 ==) . p2 . p2) ?
+h2 = [const (d), pred . p2 . p2] . ((0 ==) . p2 . p2) ?
+\end{spec}
+
+Ficando assim com:
+
+\begin{eqnarray*}
+\start
 %
-     |(c d) . in = [const (d) . id, [const (d), pred . (c d)] . ((0 ==) . (c d))?]|
+     |aux d = cataList (split (either (const (0)) f2) (split (either (const (0)) g2) (either (const (d)) h2)))|
 %
-\just\equiv{ absorção-+ }
+\just\equiv{ def-for }
 %
-     |(c d) . in = [const (d), [const (d), pred . (c d)]] . (id + ((0 ==) . (c d))?)|
+     |aux d = for (split f2 (split g2 h2)) (((const (0)), (const (0)), (const (d))))|
+%
+\end{eqnarray*}
+
+\newpage
+
+Neste ponto já estámos bastante próximos da definição do \start{ |loop d| } basta-nos demonstrar
+a igualdade entre \start{ |g d| } e \start{ |(split f2 (split g2 h2))| }
+
+\begin{eqnarray*}
+\start
+%
+     |g d = (split f2 (split g2 h2))|
+%
+\just\equiv{ def-g2; def-h2 }
+%
+     |g d = (split f2 (split ([const (0), succ . p1 . p2] . ((0 ==) . p2 . p2) ?) ([const (d), pred . p2 . p2] . ((0 ==) . p2 . p2) ?)))|
+%
+\just\equiv{ fusão-x; }
+%
+     |g d = (split f2 ((split [const (0), succ . p1 . p2] [const (d), pred . p2 . p2]) . (((0 ==) . p2 . p2) ?)))|
+%
+\just\equiv{ lei de troca; def-f2; fusão-x }
+%
+     |g d = (split [succ . p1, p1] [(split (const (0)) (const (d))),(split (succ . p1 . p2) (pred . p2 . p2))]) . ((0 ==) . p2 . p2) ?|
+%
+\just\equiv{ lei da troca; igualdade extensional }
+%
+     |g d (q,(r,c)) = [split (succ . p1) (split (const (0)) (const (d))), split p1 (split (succ . p1 . p2) (pred . p2 . p2))] . ((0 ==) . p2 . p2) ? (q,(r,c))|
+%
+\just\equiv{ 2ª lei de fusão do condicional }
+%
+     |g d (q,(r,c)) = [split (succ q) (split (const (0)) (const (d))), split q (split (succ r) (pred c))] . (0 == c) ?|
+%
+\just\equiv{ def-split }
+%
+     |g d (q,(r,c)) = [(succ q, (const (0), const (d))), (q, (succ r, pred c))] . (0 == c) ?|
+%
+\just\equiv{ eq-+??? }
+%
+     |lcbr(
+          g d (q,(r,0)) = (succ q, (const (0), const (d)))
+     )(
+          g d (q,(r,c)) = (q, (succ r, pred c))
+     )|
+%
+\just\equiv{ def-succ, def-pred }
+%
+     |lcbr(
+          g d (q,(r,0)) = (q+1, (0, d))
+     )(
+          g d (q,(r,c)) = (q, (r+1, c-1))
+     )|
+%
 \qed
 \end{eqnarray*}
 
-%format (lcbr3 (x)(y)(z)) = "\begin{lcbr}" x "\\" y "\\" z "\end{lcbr}"
-\begin{spec}
-loop d = for ((g d)) ((0,(0, d))) where
-     g d (q, (r, 0)) = (q+1, (0, d))
-     g d (q, (r, c+1)) = (q,(r+1, c))
-\end{spec}
-\begin{eqnarray*}
-\start
-     |lcbr3(
-          (q d) . in = [const (0), [succ . (q d), (q d)]] . (id + ((0 ==) . (c d))?)
-     )(
-          (r d) . in = [const (0), [const (0), succ . (r d)]] . (id + ((0 ==) . (c d))?)
-     )(
-          (c d) . in = [const (d), [const (d), pred . (c d)]] . (id + ((0 ==) . (c d))?)
-     )|
-%
-\just\equiv{ def condicional de McCarthy, natural-id }
-%
-     |lcbr3(
-          (q d) = [const (0), [succ . (q d), (q d)]] . (id + ((0 ==) . (c d))?) . out
-     )(
-          (r d) = [const (0), [const (0), succ . (r d)]] . (id + ((0 ==) . (c d))?) . out
-     )(
-          (c d) = [const (d), [const (d), pred . (c d)]] . (id + ((0 ==) . (c d))?) . out
-     )|
-%
-\just\equiv{ absorção-+ }
-%
-     |(c d) . in = [const (d), [const (d), pred . (c d)]] . (id + ((0 ==) . (c d))?)|
-\qed
-\end{eqnarray*}
+\newpage
 
 \subsection*{Problema 2}
 \begin{eqnarray*}
@@ -1103,48 +1195,48 @@ loop d = for ((g d)) ((0,(0, d))) where
 \just\equiv{ def-functor }
 %
      |lcbr(
-          alice . in = [id, uncurry max] . F bob
+          alice . in = [id, uncurry max] . fF bob
      )(
-          bob . in = [id, uncurry min] . F alice
+          bob . in = [id, uncurry min] . fF alice
      )|
 %
 \just\equiv{ def-out }
 %
      |lcbr(
-          alice . in . out = [id, uncurry max] . F bob . out
+          alice . in . out = [id, uncurry max] . fF bob . out
      )(
-          bob . in . out = [id, uncurry min] . F alice . out
+          bob . in . out = [id, uncurry min] . fF alice . out
      )|
 %
 \just\equiv{ in . out = id }
 %
      |lcbr(
-          alice = [id, uncurry max] . F bob . out
+          alice = [id, uncurry max] . fF bob . out
      )(
-          bob = [id, uncurry min] . F alice . out
+          bob = [id, uncurry min] . fF alice . out
      )|
 %
 \just\equiv{ eq-x }
 %
-     |split alice bob = split ([id, uncurry max] . F bob . out) ([id, uncurry min] . F alice . out)|
+     |split alice bob = split ([id, uncurry max] . fF bob . out) ([id, uncurry min] . fF alice . out)|
 \qed
 \end{eqnarray*}
-E assim podemos definir o both como um split alice bob
+E assim podemos definir o \start{ |both| } como \start{ |split alice bob| }
 
 \begin{eqnarray*}
 \start
      |lcbr(
-          alice . in = [id, uncurry max] . F bob
+          alice . in = [id, uncurry max] . fF bob
      )(
-          bob . in = [id, uncurry min] . F alice
+          bob . in = [id, uncurry min] . fF alice
      )|
 %
 \just\equiv{ cancelamento-x }
 %
      |lcbr(
-          alice . in = [id, uncurry max] . p2 . split (F alice) (F bob)
+          alice . in = [id, uncurry max] . p2 . split (fF alice) (fF bob)
      )(
-          bob . in = [id, uncurry min] . p1 . split (F alice) (F bob)
+          bob . in = [id, uncurry min] . p1 . split (fF alice) (fF bob)
      )|
 %
 \just\equiv{ fokkinga }
@@ -1152,6 +1244,9 @@ E assim podemos definir o both como um split alice bob
      |split alice bob = cataLTree (split ([id, uncurry max] . p2) ([id, uncurry min] . p1))|
 \qed
 \end{eqnarray*}
+
+Temos aqui o nosso catamorfismo, vamos codificá-lo
+
 \begin{code}
 umin :: Ord a => (a,a) -> a
 umin = uncurry min
@@ -1207,27 +1302,22 @@ g2 (((x,y),s),n+1) = i2 ((t1,t2),t3) where
 \begin{code}
 propagate :: Monad m => (t -> m a) -> [t] -> m [a]
 propagate f = cataList (g f) where
-   g f = either undefined (g2 f)
-   g2 f (a,b) = undefined
+   g f = either (return . nil) (g2 f)
+   g2 f (a,b) = do { na <- (f a); nb <- b; return (na:nb) }
 \end{code}
 
 \begin{code}
 propagate3 :: (Monad m) => (Bit3 -> m Bit3) -> [Bit] -> m [Bit]
 propagate3 f = cataList (g f) where
-   g f = either undefined (g2 f)
-   g2 f (a,b) = undefined
+   g f = either (return . nil) (g2 f)
+   g2 f (a,b) = do { na <- (f (a, a, a)); nb <- b; return (v3(na):nb) }
 
 \end{code}
 A função |bflip3|, a programar a seguir, deverá estender |bflip| aos três bits da entrada:
 
 \begin{code}
--- bflip :: Bit -> Dist Bit
--- bflip 0 = D[(0,0.96), (1,0.04)]
--- bflip 1 = D[(1,0.90), (0,0.10)]
-
 bflip3 :: Bit3 -> Dist Bit3
-bflip3 t@(a,b,c) = do { undefined }
-
+bflip3 (a,b,c) = do { na <- bflip(a); nb <- bflip(b); nc <- bflip(c); return (na, nb, nc) }
 \end{code}
 
 %----------------- Índice remissivo (exige makeindex) -------------------------%
