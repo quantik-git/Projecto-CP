@@ -244,7 +244,7 @@ loop d = for ((g d)) ((0,(0, d))) where
 Considere o seguinte desafio, extraído de \href{http://bebras.dcc.fc.up.pt/problems/2020/problemas_09_10.pdf}{O Bebras - Castor Informático} (edição 2020):
 
 \begin{quote}\em
-\textbf{11 --- Robôs e Pedras Preciosas}
+\textbf{11 --- Robôs e Pedras Preciosas}∗
 A Alice e o Bob estão a controlar um robô num labirinto com pedras preciosas.
 O robô começa na localização indicada na figura abaixo [Fig.~\ref{fig:labirinto}].
 O robô segue um caminho até encontrar uma bifurcação. Um dos jogadores decide
@@ -1120,6 +1120,42 @@ a igualdade entre \start{ |g d| } e \start{ |(split f2 (split g2 h2))| }
 \newpage
 
 \subsection*{Problema 2}
+
+Catamorfismos \start{ alice } e \start{ bob }:
+
+\begin{eqnarray*}
+\xymatrix@@C=2cm{
+     |Nat0 + (LTree Nat0)|^2
+          \ar[d]^-{|fF bob|}
+&
+&
+     |LTree Nat0|
+          \ar[d]^{|split alice bob|}
+          \ar[ll]_-{|out|}
+          \ar[dl]_-{|alice|}
+          \ar[rr]^-{|out|}
+          \ar[dr]^-{|bob|}
+&
+&
+     |Nat0 + (LTree Nat0)|^2
+          \ar[d]_-{|fF alice|}
+\\
+     |Nat0 + Nat0 >< Nat0|
+          \ar[r]_-{|either id (uncurry max)|}
+&
+     |Nat0|
+&
+     |Nat0 >< Nat0|
+          \ar[l]^-{|p1|}
+          \ar[r]_-{|p2|}
+&
+     |Nat0|
+&
+     |Nat0 + Nat0 >< Nat0|
+          \ar[l]^-{|either id (uncurry min)|}
+}
+\end{eqnarray*} 
+
 \begin{eqnarray*}
 \start
      |lcbr(
@@ -1142,13 +1178,13 @@ a igualdade entre \start{ |g d| } e \start{ |(split f2 (split g2 h2))| }
           lcbr(
                alice (Leaf a) = a
           )(
-               alice (Fork (l,r)) = uncurry max . (bob x bob) (l,r)
+               alice (Fork (l,r)) = uncurry max . (bob >< bob) (l,r)
           )
      )(
           lcbr(
                bob (Leaf a) = a
           )(
-               bob (Fork (l,r)) = uncurry min . (alice x alice) (l,r)
+               bob (Fork (l,r)) = uncurry min . (alice >< alice) (l,r)
           )
      )|
 %
@@ -1158,38 +1194,38 @@ a igualdade entre \start{ |g d| } e \start{ |(split f2 (split g2 h2))| }
           lcbr(
                alice . Leaf = id
           )(
-               alice . Fork = uncurry max . (bob x bob)
+               alice . Fork = uncurry max . (bob >< bob)
           )
      )(
           lcbr(
                bob . Leaf = id
           )(
-               bob . Fork = uncurry min . (alice x alice)
+               bob . Fork = uncurry min . (alice >< alice)
           )
      )|
 %
 \just\equiv{ eq-+, fusão-+ }
 %
      |lcbr(
-          alice . [Leaf, Fork] = [id, uncurry max . (bob x bob)]
+          alice . [Leaf, Fork] = [id, uncurry max . (bob >< bob)]
      )(
-          bob . [Leaf, Fork] = [id, uncurry min . (alice x alice)]
+          bob . [Leaf, Fork] = [id, uncurry min . (alice >< alice)]
      )|
 %
 \just\equiv{ def-in, natural-id }
 %
      |lcbr(
-          alice . in = [id . id, uncurry max . (bob x bob)]
+          alice . in = [id . id, uncurry max . (bob >< bob)]
      )(
-          bob . in = [id . id, uncurry min . (alice x alice)]
+          bob . in = [id . id, uncurry min . (alice >< alice)]
      )|
 %
 \just\equiv{ absorção-+ }
 %
      |lcbr(
-          alice . in = [id, uncurry max] . (id + (bob x bob))
+          alice . in = [id, uncurry max] . (id + (bob >< bob))
      )(
-          bob . in = [id, uncurry min] . (id + (alice x alice))
+          bob . in = [id, uncurry min] . (id + (alice >< alice))
      )|
 %
 \just\equiv{ def-functor }
@@ -1224,6 +1260,22 @@ a igualdade entre \start{ |g d| } e \start{ |(split f2 (split g2 h2))| }
 E assim podemos definir o \start{ |both| } como \start{ |split alice bob| }
 
 \begin{eqnarray*}
+\xymatrix@@C=4cm{
+     |LTree Nat0|
+          \ar[d]_-{|both|}
+          \ar[r]^-{|out|}
+&
+     |Nat0 + (LTree Nat0)|^2
+          \ar[d]^-{|fF both|}
+\\
+     |Nat0 >< Nat0|
+&
+     |Nat0 + (Nat0 >< Nat0)|^2
+          \ar[l]^-{|split (either id (uncurry max) . fF p2) (either id (uncurry min) . fF p1)|}
+}
+\end{eqnarray*} 
+
+\begin{eqnarray*}
 \start
      |lcbr(
           alice . in = [id, uncurry max] . fF bob
@@ -1234,14 +1286,14 @@ E assim podemos definir o \start{ |both| } como \start{ |split alice bob| }
 \just\equiv{ cancelamento-x }
 %
      |lcbr(
-          alice . in = [id, uncurry max] . p2 . split (fF alice) (fF bob)
+          alice . in = [id, uncurry max] . fF p2 . fF (split alice bob)
      )(
-          bob . in = [id, uncurry min] . p1 . split (fF alice) (fF bob)
+          bob . in = [id, uncurry min] . fF p1 . fF (split alice bob)
      )|
 %
 \just\equiv{ fokkinga }
 %
-     |split alice bob = cataLTree (split ([id, uncurry max] . p2) ([id, uncurry min] . p1))|
+     |split alice bob = cataLTree (split ([id, uncurry max] . fF p2) ([id, uncurry min] . fF p1))|
 \qed
 \end{eqnarray*}
 
@@ -1266,6 +1318,8 @@ both' = cataLTree (split a b) where
      b = either id umin . recLTree p1
 \end{code}
 
+\newpage
+
 \subsection*{Problema 3}
 Biblioteca |LTree3|:
 
@@ -1286,6 +1340,33 @@ anaLTree3 f = inLTree3 . (recLTree3 (anaLTree3 f)) . f
 hyloLTree3 f g = cataLTree3 f . anaLTree3 g
 \end{code}
 Genes do hilomorfismo |sierpinski|:
+
+\begin{eqnarray*}
+\xymatrix@@C=4cm{
+     |Tri >< Nat0|
+          \ar[dd]_-{|geraSierp|}
+          \ar[r]^-{|g2|}
+&
+     |Tri + (Tri >< Nat0)|^3
+          \ar[dd]^-{|fF geraSierp|}
+\\
+\\
+     |LTree3 Tri|
+          \ar@@/^2pc/[r]^(0.45){|out|}
+          \ar[dd]_-{|folhasSierp|}
+&
+     |LTree3 Tri + (LTree3 Tri)|^3
+          \ar[dd]^-{|fF folhasSierp|}
+          \ar@@/^2pc/[l]^(0.45){|in|}
+\\
+\\
+     |\[Tri\]|
+&
+     |Tri + Tri|^3
+          \ar[l]^-{|either singl (conc . (conc >< id))|}
+}
+\end{eqnarray*} 
+
 \begin{code}
 g1 = either singl (conc . (conc >< id))
 
@@ -1295,7 +1376,18 @@ g2 (((x,y),s),n+1) = i2 ((t1,t2),t3) where
      t1 = (((x, y), ns), n)
      t2 = (((x+ns, y), ns), n)
      t3 = (((x, y+ns), ns), n)
+
+g2' :: (Tri, Int) -> Either Tri (((Tri, Int), (Tri, Int)), (Tri, Int))
+g2' = p1 -|- (split (split t1 t2) t3) where
+     ns = (uncurry div) . (split id (const 2))
+     nx = add . (split (ns . p2) (p1 . p1))
+     ny = add . (split (ns . p2) (p2 . p1))
+     t1 = ((id >< ns) >< pred)
+     t2 = ((split (split nx (p2 .p1)) (ns . p2)) >< pred)
+     t3 = ((split (split (p1 . p1) ny) (ns . p2)) >< pred)
 \end{code}
+
+\newpage
 
 \subsection*{Problema 4}
 

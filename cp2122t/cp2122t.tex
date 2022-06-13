@@ -401,7 +401,7 @@ função que o ciclo-for seguinte:
 Considere o seguinte desafio, extraído de \href{http://bebras.dcc.fc.up.pt/problems/2020/problemas_09_10.pdf}{O Bebras - Castor Informático} (edição 2020):
 
 \begin{quote}\em
-\textbf{11 --- Robôs e Pedras Preciosas}
+\textbf{11 --- Robôs e Pedras Preciosas}∗
 A Alice e o Bob estão a controlar um robô num labirinto com pedras preciosas.
 O robô começa na localização indicada na figura abaixo [Fig.~\ref{fig:labirinto}].
 O robô segue um caminho até encontrar uma bifurcação. Um dos jogadores decide
@@ -1356,29 +1356,65 @@ a igualdade entre \start{ \ensuremath{\Varid{g}\;\Varid{d}} } e \start{ \ensurem
 \newpage
 
 \subsection*{Problema 2}
+
+Catamorfismos \start{ alice } e \start{ bob }:
+
+\begin{eqnarray*}
+\xymatrix@C=2cm{
+     \ensuremath{\N_0\mathbin{+}({\LTree}\;\N_0)}^2
+          \ar[d]^-{\ensuremath{\fun F \;\Varid{bob}}}
+&
+&
+     \ensuremath{{\LTree}\;\N_0}
+          \ar[d]^{\ensuremath{\conj{\Varid{alice}}{\Varid{bob}}}}
+          \ar[ll]_-{\ensuremath{\Varid{out}}}
+          \ar[dl]_-{\ensuremath{\Varid{alice}}}
+          \ar[rr]^-{\ensuremath{\Varid{out}}}
+          \ar[dr]^-{\ensuremath{\Varid{bob}}}
+&
+&
+     \ensuremath{\N_0\mathbin{+}({\LTree}\;\N_0)}^2
+          \ar[d]_-{\ensuremath{\fun F \;\Varid{alice}}}
+\\
+     \ensuremath{\N_0\mathbin{+}\N_0\times\N_0}
+          \ar[r]_-{\ensuremath{\alt{\Varid{id}}{\uncurry{\Varid{max}}}}}
+&
+     \ensuremath{\N_0}
+&
+     \ensuremath{\N_0\times\N_0}
+          \ar[l]^-{\ensuremath{\p1}}
+          \ar[r]_-{\ensuremath{\p2}}
+&
+     \ensuremath{\N_0}
+&
+     \ensuremath{\N_0\mathbin{+}\N_0\times\N_0}
+          \ar[l]^-{\ensuremath{\alt{\Varid{id}}{\uncurry{\Varid{min}}}}}
+}
+\end{eqnarray*} 
+
 \begin{eqnarray*}
 \start
      \ensuremath{\begin{lcbr}\begin{lcbr}\Varid{alice}\;(\Conid{Leaf}\;\Varid{a})\mathrel{=}\Varid{a}\\\Varid{alice}\;(\Conid{Fork}\;(\Varid{l},\Varid{r}))\mathrel{=}\Varid{max}\;(\Varid{bob}\;\Varid{l})\;(\Varid{bob}\;\Varid{r})\end{lcbr}\\\begin{lcbr}\Varid{bob}\;(\Conid{Leaf}\;\Varid{a})\mathrel{=}\Varid{a}\\\Varid{bob}\;(\Conid{Fork}\;(\Varid{l},\Varid{r}))\mathrel{=}\Varid{min}\;(\Varid{alice}\;\Varid{l})\;(\Varid{alice}\;\Varid{r})\end{lcbr}\end{lcbr}}
 %
 \just\equiv{ uncurry, def-x }
 %
-     \ensuremath{\begin{lcbr}\begin{lcbr}\Varid{alice}\;(\Conid{Leaf}\;\Varid{a})\mathrel{=}\Varid{a}\\\Varid{alice}\;(\Conid{Fork}\;(\Varid{l},\Varid{r}))\mathrel{=}\uncurry{\Varid{max}}\comp (\Varid{bob}\;\Varid{x}\;\Varid{bob})\;(\Varid{l},\Varid{r})\end{lcbr}\\\begin{lcbr}\Varid{bob}\;(\Conid{Leaf}\;\Varid{a})\mathrel{=}\Varid{a}\\\Varid{bob}\;(\Conid{Fork}\;(\Varid{l},\Varid{r}))\mathrel{=}\uncurry{\Varid{min}}\comp (\Varid{alice}\;\Varid{x}\;\Varid{alice})\;(\Varid{l},\Varid{r})\end{lcbr}\end{lcbr}}
+     \ensuremath{\begin{lcbr}\begin{lcbr}\Varid{alice}\;(\Conid{Leaf}\;\Varid{a})\mathrel{=}\Varid{a}\\\Varid{alice}\;(\Conid{Fork}\;(\Varid{l},\Varid{r}))\mathrel{=}\uncurry{\Varid{max}}\comp (\Varid{bob}\times\Varid{bob})\;(\Varid{l},\Varid{r})\end{lcbr}\\\begin{lcbr}\Varid{bob}\;(\Conid{Leaf}\;\Varid{a})\mathrel{=}\Varid{a}\\\Varid{bob}\;(\Conid{Fork}\;(\Varid{l},\Varid{r}))\mathrel{=}\uncurry{\Varid{min}}\comp (\Varid{alice}\times\Varid{alice})\;(\Varid{l},\Varid{r})\end{lcbr}\end{lcbr}}
 %
 \just\equiv{ natural-id, igualdade extensional }
 %
-     \ensuremath{\begin{lcbr}\begin{lcbr}\Varid{alice}\comp \Conid{Leaf}\mathrel{=}\Varid{id}\\\Varid{alice}\comp \Conid{Fork}\mathrel{=}\uncurry{\Varid{max}}\comp (\Varid{bob}\;\Varid{x}\;\Varid{bob})\end{lcbr}\\\begin{lcbr}\Varid{bob}\comp \Conid{Leaf}\mathrel{=}\Varid{id}\\\Varid{bob}\comp \Conid{Fork}\mathrel{=}\uncurry{\Varid{min}}\comp (\Varid{alice}\;\Varid{x}\;\Varid{alice})\end{lcbr}\end{lcbr}}
+     \ensuremath{\begin{lcbr}\begin{lcbr}\Varid{alice}\comp \Conid{Leaf}\mathrel{=}\Varid{id}\\\Varid{alice}\comp \Conid{Fork}\mathrel{=}\uncurry{\Varid{max}}\comp (\Varid{bob}\times\Varid{bob})\end{lcbr}\\\begin{lcbr}\Varid{bob}\comp \Conid{Leaf}\mathrel{=}\Varid{id}\\\Varid{bob}\comp \Conid{Fork}\mathrel{=}\uncurry{\Varid{min}}\comp (\Varid{alice}\times\Varid{alice})\end{lcbr}\end{lcbr}}
 %
 \just\equiv{ eq-+, fusão-+ }
 %
-     \ensuremath{\begin{lcbr}\Varid{alice}\comp [\mskip1.5mu \Conid{Leaf},\Conid{Fork}\mskip1.5mu]\mathrel{=}[\mskip1.5mu \Varid{id},\uncurry{\Varid{max}}\comp (\Varid{bob}\;\Varid{x}\;\Varid{bob})\mskip1.5mu]\\\Varid{bob}\comp [\mskip1.5mu \Conid{Leaf},\Conid{Fork}\mskip1.5mu]\mathrel{=}[\mskip1.5mu \Varid{id},\uncurry{\Varid{min}}\comp (\Varid{alice}\;\Varid{x}\;\Varid{alice})\mskip1.5mu]\end{lcbr}}
+     \ensuremath{\begin{lcbr}\Varid{alice}\comp [\mskip1.5mu \Conid{Leaf},\Conid{Fork}\mskip1.5mu]\mathrel{=}[\mskip1.5mu \Varid{id},\uncurry{\Varid{max}}\comp (\Varid{bob}\times\Varid{bob})\mskip1.5mu]\\\Varid{bob}\comp [\mskip1.5mu \Conid{Leaf},\Conid{Fork}\mskip1.5mu]\mathrel{=}[\mskip1.5mu \Varid{id},\uncurry{\Varid{min}}\comp (\Varid{alice}\times\Varid{alice})\mskip1.5mu]\end{lcbr}}
 %
 \just\equiv{ def-in, natural-id }
 %
-     \ensuremath{\begin{lcbr}\Varid{alice}\comp \mathbf{in}\mathrel{=}[\mskip1.5mu \Varid{id}\comp \Varid{id},\uncurry{\Varid{max}}\comp (\Varid{bob}\;\Varid{x}\;\Varid{bob})\mskip1.5mu]\\\Varid{bob}\comp \mathbf{in}\mathrel{=}[\mskip1.5mu \Varid{id}\comp \Varid{id},\uncurry{\Varid{min}}\comp (\Varid{alice}\;\Varid{x}\;\Varid{alice})\mskip1.5mu]\end{lcbr}}
+     \ensuremath{\begin{lcbr}\Varid{alice}\comp \mathbf{in}\mathrel{=}[\mskip1.5mu \Varid{id}\comp \Varid{id},\uncurry{\Varid{max}}\comp (\Varid{bob}\times\Varid{bob})\mskip1.5mu]\\\Varid{bob}\comp \mathbf{in}\mathrel{=}[\mskip1.5mu \Varid{id}\comp \Varid{id},\uncurry{\Varid{min}}\comp (\Varid{alice}\times\Varid{alice})\mskip1.5mu]\end{lcbr}}
 %
 \just\equiv{ absorção-+ }
 %
-     \ensuremath{\begin{lcbr}\Varid{alice}\comp \mathbf{in}\mathrel{=}[\mskip1.5mu \Varid{id},\uncurry{\Varid{max}}\mskip1.5mu]\comp (\Varid{id}\mathbin{+}(\Varid{bob}\;\Varid{x}\;\Varid{bob}))\\\Varid{bob}\comp \mathbf{in}\mathrel{=}[\mskip1.5mu \Varid{id},\uncurry{\Varid{min}}\mskip1.5mu]\comp (\Varid{id}\mathbin{+}(\Varid{alice}\;\Varid{x}\;\Varid{alice}))\end{lcbr}}
+     \ensuremath{\begin{lcbr}\Varid{alice}\comp \mathbf{in}\mathrel{=}[\mskip1.5mu \Varid{id},\uncurry{\Varid{max}}\mskip1.5mu]\comp (\Varid{id}\mathbin{+}(\Varid{bob}\times\Varid{bob}))\\\Varid{bob}\comp \mathbf{in}\mathrel{=}[\mskip1.5mu \Varid{id},\uncurry{\Varid{min}}\mskip1.5mu]\comp (\Varid{id}\mathbin{+}(\Varid{alice}\times\Varid{alice}))\end{lcbr}}
 %
 \just\equiv{ def-functor }
 %
@@ -1397,7 +1433,23 @@ a igualdade entre \start{ \ensuremath{\Varid{g}\;\Varid{d}} } e \start{ \ensurem
      \ensuremath{\conj{\Varid{alice}}{\Varid{bob}}\mathrel{=}\conj{[\mskip1.5mu \Varid{id},\uncurry{\Varid{max}}\mskip1.5mu]\comp \fun F \;\Varid{bob}\comp \Varid{out}}{[\mskip1.5mu \Varid{id},\uncurry{\Varid{min}}\mskip1.5mu]\comp \fun F \;\Varid{alice}\comp \Varid{out}}}
 \qed
 \end{eqnarray*}
-E assim podemos definir o \start{ \ensuremath{\Varid{both}} } como um \start{ \ensuremath{\conj{\Varid{alice}}{\Varid{bob}}} }
+E assim podemos definir o \start{ \ensuremath{\Varid{both}} } como \start{ \ensuremath{\conj{\Varid{alice}}{\Varid{bob}}} }
+
+\begin{eqnarray*}
+\xymatrix@C=4cm{
+     \ensuremath{{\LTree}\;\N_0}
+          \ar[d]_-{\ensuremath{\Varid{both}}}
+          \ar[r]^-{\ensuremath{\Varid{out}}}
+&
+     \ensuremath{\N_0\mathbin{+}({\LTree}\;\N_0)}^2
+          \ar[d]^-{\ensuremath{\fun F \;\Varid{both}}}
+\\
+     \ensuremath{\N_0\times\N_0}
+&
+     \ensuremath{\N_0\mathbin{+}(\N_0\times\N_0)}^2
+          \ar[l]^-{\ensuremath{\conj{\alt{\Varid{id}}{\uncurry{\Varid{max}}}\comp \fun F \;\p2}{\alt{\Varid{id}}{\uncurry{\Varid{min}}}\comp \fun F \;\p1}}}
+}
+\end{eqnarray*} 
 
 \begin{eqnarray*}
 \start
@@ -1405,13 +1457,16 @@ E assim podemos definir o \start{ \ensuremath{\Varid{both}} } como um \start{ \e
 %
 \just\equiv{ cancelamento-x }
 %
-     \ensuremath{\begin{lcbr}\Varid{alice}\comp \mathbf{in}\mathrel{=}[\mskip1.5mu \Varid{id},\uncurry{\Varid{max}}\mskip1.5mu]\comp \p2\comp \conj{\fun F \;\Varid{alice}}{\fun F \;\Varid{bob}}\\\Varid{bob}\comp \mathbf{in}\mathrel{=}[\mskip1.5mu \Varid{id},\uncurry{\Varid{min}}\mskip1.5mu]\comp \p1\comp \conj{\fun F \;\Varid{alice}}{\fun F \;\Varid{bob}}\end{lcbr}}
+     \ensuremath{\begin{lcbr}\Varid{alice}\comp \mathbf{in}\mathrel{=}[\mskip1.5mu \Varid{id},\uncurry{\Varid{max}}\mskip1.5mu]\comp \fun F \;\p2\comp \fun F \;\conj{\Varid{alice}}{\Varid{bob}}\\\Varid{bob}\comp \mathbf{in}\mathrel{=}[\mskip1.5mu \Varid{id},\uncurry{\Varid{min}}\mskip1.5mu]\comp \fun F \;\p1\comp \fun F \;\conj{\Varid{alice}}{\Varid{bob}}\end{lcbr}}
 %
 \just\equiv{ fokkinga }
 %
-     \ensuremath{\conj{\Varid{alice}}{\Varid{bob}}\mathrel{=}\llparenthesis\, \conj{[\mskip1.5mu \Varid{id},\uncurry{\Varid{max}}\mskip1.5mu]\comp \p2}{[\mskip1.5mu \Varid{id},\uncurry{\Varid{min}}\mskip1.5mu]\comp \p1}\,\rrparenthesis}
+     \ensuremath{\conj{\Varid{alice}}{\Varid{bob}}\mathrel{=}\llparenthesis\, \conj{[\mskip1.5mu \Varid{id},\uncurry{\Varid{max}}\mskip1.5mu]\comp \fun F \;\p2}{[\mskip1.5mu \Varid{id},\uncurry{\Varid{min}}\mskip1.5mu]\comp \fun F \;\p1}\,\rrparenthesis}
 \qed
 \end{eqnarray*}
+
+Temos aqui o nosso catamorfismo, vamos codificá-lo
+
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{6}{@{}>{\hspre}l<{\hspost}@{}}%
@@ -1447,6 +1502,8 @@ E assim podemos definir o \start{ \ensuremath{\Varid{both}} } como um \start{ \e
 \ColumnHook
 \end{hscode}\resethooks
 
+\newpage
+
 \subsection*{Problema 3}
 Biblioteca \ensuremath{\mathsf{LTree3}}:
 
@@ -1471,6 +1528,33 @@ Biblioteca \ensuremath{\mathsf{LTree3}}:
 \ColumnHook
 \end{hscode}\resethooks
 Genes do hilomorfismo \ensuremath{\Varid{sierpinski}}:
+
+\begin{eqnarray*}
+\xymatrix@C=4cm{
+     \ensuremath{\Conid{Tri}\times\N_0}
+          \ar[dd]_-{\ensuremath{\Varid{geraSierp}}}
+          \ar[r]^-{\ensuremath{g_2 }}
+&
+     \ensuremath{\Conid{Tri}\mathbin{+}(\Conid{Tri}\times\N_0)}^3
+          \ar[dd]^-{\ensuremath{\fun F \;\Varid{geraSierp}}}
+\\
+\\
+     \ensuremath{\mathsf{LTree3}\;\Conid{Tri}}
+          \ar@/^2pc/[r]^(0.45){\ensuremath{\Varid{out}}}
+          \ar[dd]_-{\ensuremath{\Varid{folhasSierp}}}
+&
+     \ensuremath{\mathsf{LTree3}\;\Conid{Tri}\mathbin{+}(\mathsf{LTree3}\;\Conid{Tri})}^3
+          \ar[dd]^-{\ensuremath{\fun F \;\Varid{folhasSierp}}}
+          \ar@/^2pc/[l]^(0.45){\ensuremath{\mathbf{in}}}
+\\
+\\
+     \ensuremath{\lambda [\mskip1.5mu \Conid{Tri}\lambda \mskip1.5mu]}
+&
+     \ensuremath{\Conid{Tri}\mathbin{+}\Conid{Tri}}^3
+          \ar[l]^-{\ensuremath{\alt{\Varid{singl}}{\mathsf{conc}\comp (\mathsf{conc}\times\Varid{id})}}}
+}
+\end{eqnarray*} 
+
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{6}{@{}>{\hspre}l<{\hspost}@{}}%
@@ -1492,8 +1576,32 @@ Genes do hilomorfismo \ensuremath{\Varid{sierpinski}}:
 \\
 \>[B]{}\hsindent{6}{}\<[6]%
 \>[6]{}\Varid{t3}\mathrel{=}(((\Varid{x},\Varid{y}\mathbin{+}\Varid{ns}),\Varid{ns}),\Varid{n}){}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{g2'}\mathbin{::}(\Conid{Tri},\Conid{Int})\to \Conid{Tri}+(((\Conid{Tri},\Conid{Int}),(\Conid{Tri},\Conid{Int})),(\Conid{Tri},\Conid{Int})){}\<[E]%
+\\
+\>[B]{}\Varid{g2'}\mathrel{=}\p1+\conj{\conj{\Varid{t1}}{\Varid{t2}}}{\Varid{t3}}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{6}{}\<[6]%
+\>[6]{}\Varid{ns}\mathrel{=}\uncurry{\cdot \div \cdot }\comp \conj{\Varid{id}}{\underline{\mathrm{2}}}{}\<[E]%
+\\
+\>[B]{}\hsindent{6}{}\<[6]%
+\>[6]{}\Varid{nx}\mathrel{=}\Varid{add}\comp \conj{\Varid{ns}\comp \p2}{\p1\comp \p1}{}\<[E]%
+\\
+\>[B]{}\hsindent{6}{}\<[6]%
+\>[6]{}\Varid{ny}\mathrel{=}\Varid{add}\comp \conj{\Varid{ns}\comp \p2}{\p2\comp \p1}{}\<[E]%
+\\
+\>[B]{}\hsindent{6}{}\<[6]%
+\>[6]{}\Varid{t1}\mathrel{=}((\Varid{id}\times\Varid{ns})\times\Varid{pred}){}\<[E]%
+\\
+\>[B]{}\hsindent{6}{}\<[6]%
+\>[6]{}\Varid{t2}\mathrel{=}(\conj{\conj{\Varid{nx}}{\p2\comp \p1}}{\Varid{ns}\comp \p2}\times\Varid{pred}){}\<[E]%
+\\
+\>[B]{}\hsindent{6}{}\<[6]%
+\>[6]{}\Varid{t3}\mathrel{=}(\conj{\conj{\p1\comp \p1}{\Varid{ny}}}{\Varid{ns}\comp \p2}\times\Varid{pred}){}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
+
+\newpage
 
 \subsection*{Problema 4}
 
@@ -1506,10 +1614,10 @@ Genes do hilomorfismo \ensuremath{\Varid{sierpinski}}:
 \>[B]{}\Varid{propagate}\;\Varid{f}\mathrel{=}\cataList{\Varid{g}\;\Varid{f}}\;\mathbf{where}{}\<[E]%
 \\
 \>[B]{}\hsindent{4}{}\<[4]%
-\>[4]{}\Varid{g}\;\Varid{f}\mathrel{=}\alt{\bot }{g_2 \;\Varid{f}}{}\<[E]%
+\>[4]{}\Varid{g}\;\Varid{f}\mathrel{=}\alt{\Varid{return}\comp \Varid{nil}}{g_2 \;\Varid{f}}{}\<[E]%
 \\
 \>[B]{}\hsindent{4}{}\<[4]%
-\>[4]{}g_2 \;\Varid{f}\;(\Varid{a},\Varid{b})\mathrel{=}\bot {}\<[E]%
+\>[4]{}g_2 \;\Varid{f}\;(\Varid{a},\Varid{b})\mathrel{=}\mathbf{do}\;\{\mskip1.5mu \Varid{na}\leftarrow (\Varid{f}\;\Varid{a});\Varid{nb}\leftarrow \Varid{b};\Varid{return}\;(\Varid{na}\mathbin{:}\Varid{nb})\mskip1.5mu\}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 
@@ -1522,10 +1630,10 @@ Genes do hilomorfismo \ensuremath{\Varid{sierpinski}}:
 \>[B]{}\Varid{propagate3}\;\Varid{f}\mathrel{=}\cataList{\Varid{g}\;\Varid{f}}\;\mathbf{where}{}\<[E]%
 \\
 \>[B]{}\hsindent{4}{}\<[4]%
-\>[4]{}\Varid{g}\;\Varid{f}\mathrel{=}\alt{\bot }{g_2 \;\Varid{f}}{}\<[E]%
+\>[4]{}\Varid{g}\;\Varid{f}\mathrel{=}\alt{\Varid{return}\comp \Varid{nil}}{g_2 \;\Varid{f}}{}\<[E]%
 \\
 \>[B]{}\hsindent{4}{}\<[4]%
-\>[4]{}g_2 \;\Varid{f}\;(\Varid{a},\Varid{b})\mathrel{=}\bot {}\<[E]%
+\>[4]{}g_2 \;\Varid{f}\;(\Varid{a},\Varid{b})\mathrel{=}\mathbf{do}\;\{\mskip1.5mu \Varid{na}\leftarrow (\Varid{f}\;(\Varid{a},\Varid{a},\Varid{a}));\Varid{nb}\leftarrow \Varid{b};\Varid{return}\;(v_3 \;(\Varid{na})\mathbin{:}\Varid{nb})\mskip1.5mu\}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 A função \ensuremath{\Varid{bflip3}}, a programar a seguir, deverá estender \ensuremath{\Varid{bflip}} aos três bits da entrada:
@@ -1533,15 +1641,9 @@ A função \ensuremath{\Varid{bflip3}}, a programar a seguir, deverá estender \
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\mbox{\onelinecomment  bflip :: Bit -> Dist Bit}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  bflip 0 = D[(0,0.96), (1,0.04)]}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  bflip 1 = D[(1,0.90), (0,0.10)]}{}\<[E]%
-\\[\blanklineskip]%
 \>[B]{}\Varid{bflip3}\mathbin{::}\Conid{Bit3}\to \fun{Dist}\;\Conid{Bit3}{}\<[E]%
 \\
-\>[B]{}\Varid{bflip3}\;\Varid{t}\mathord{@}(\Varid{a},\Varid{b},\Varid{c})\mathrel{=}\mathbf{do}\;\{\mskip1.5mu \bot \mskip1.5mu\}{}\<[E]%
+\>[B]{}\Varid{bflip3}\;(\Varid{a},\Varid{b},\Varid{c})\mathrel{=}\mathbf{do}\;\{\mskip1.5mu \Varid{na}\leftarrow \Varid{bflip}\;(\Varid{a});\Varid{nb}\leftarrow \Varid{bflip}\;(\Varid{b});\Varid{nc}\leftarrow \Varid{bflip}\;(\Varid{c});\Varid{return}\;(\Varid{na},\Varid{nb},\Varid{nc})\mskip1.5mu\}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 
