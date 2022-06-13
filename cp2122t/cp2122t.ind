@@ -1,35 +1,39 @@
 \begin{theindex}
 
-  \item \LaTeX  , \hyperpage{7}
+  \item \LaTeX , \hyperpage{7}
     \subitem \texttt  {bibtex}, \hyperpage{7}
     \subitem \texttt  {lhs2TeX}, \hyperpage{7}
     \subitem \texttt  {makeindex}, \hyperpage{7}
 
   \indexspace
 
-  \item C\IeC {\'a}lculo de Programas, \hyperpage{1}, \hyperpage{7, 8}
-    \subitem Material Pedag\IeC {\'o}gico, \hyperpage{7}
-      \subsubitem BTree.hs, \hyperpage{4}
-      \subsubitem LTree.hs, \hyperpage{2}, \hyperpage{4}, 
-		\hyperpage{11}
   \item Combinador ``pointfree''
     \subitem \emph  {cata}
-      \subsubitem Listas, \hyperpage{11}
+      \subsubitem Listas, \hyperpage{11, 12}, \hyperpage{17}
       \subsubitem Naturais, \hyperpage{8}
-    \subitem \emph  {either}, \hyperpage{11, 12}
+    \subitem \emph  {either}, \hyperpage{11, 12}, \hyperpage{14--17}
+  \item Cálculo de Programas, \hyperpage{1}, \hyperpage{7, 8}
+    \subitem Material Pedagógico, \hyperpage{7}
+      \subsubitem BTree.hs, \hyperpage{4}
+      \subsubitem LTree.hs, \hyperpage{2}, \hyperpage{4}, 
+		\hyperpage{14, 15}
 
   \indexspace
 
   \item Fractal, \hyperpage{3}
     \subitem Tri\^angulo de Sierpinski, \hyperpage{3, 4}
-  \item Fun\IeC {\c c}\IeC {\~a}o
-    \subitem \emph  {for}, \hyperpage{2}, \hyperpage{8}
+  \item Functor, \hyperpage{5}, \hyperpage{8--11}, \hyperpage{14--17}
+  \item Função
+    \subitem \emph  {for}, \hyperpage{2}, \hyperpage{8}, \hyperpage{12}
     \subitem \emph  {length}, \hyperpage{10}
     \subitem \emph  {map}, \hyperpage{10}
-    \subitem Projec\IeC {\c c}\IeC {\~a}o
-      \subsubitem $\pi _1$, \hyperpage{1}, \hyperpage{7, 8}
-      \subsubitem $\pi _2$, \hyperpage{7}
-  \item Functor, \hyperpage{5}, \hyperpage{8--10}, \hyperpage{12}
+    \subitem \emph  {succ}, \hyperpage{11--13}
+    \subitem Isomorfismo
+      \subsubitem \emph  {uncurry}, \hyperpage{14--16}
+    \subitem Projecção
+      \subsubitem $\pi _1$, \hyperpage{1}, \hyperpage{7, 8}, 
+		\hyperpage{12--16}
+      \subsubitem $\pi _2$, \hyperpage{7}, \hyperpage{12--16}
 
   \indexspace
 
@@ -43,14 +47,14 @@
 
   \indexspace
 
-  \item N\IeC {\'u}meros naturais ($I\mskip -\thinmuskip \mskip -\thinmuskip N$), 
-		\hyperpage{8}
+  \item Números naturais ($I\mskip -\thinmuskip \mskip -\thinmuskip N$), 
+		\hyperpage{8}, \hyperpage{14--16}
 
   \indexspace
 
-  \item Programa\IeC {\c c}\IeC {\~a}o
-    \subitem din\IeC {\^a}mica, \hyperpage{8}
-    \subitem liter\IeC {\'a}ria, \hyperpage{6, 7}
+  \item Programação
+    \subitem dinâmica, \hyperpage{8}
+    \subitem literária, \hyperpage{6, 7}
 
   \indexspace
 
@@ -59,7 +63,7 @@
   \indexspace
 
   \item U.Minho
-    \subitem Departamento de Inform\IeC {\'a}tica, \hyperpage{1}
+    \subitem Departamento de Informática, \hyperpage{1}
 
   \indexspace
 
